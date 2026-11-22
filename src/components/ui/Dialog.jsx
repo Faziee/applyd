@@ -21,7 +21,7 @@ export default function Dialog({ open, onClose, title, children }) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-end justify-center bg-ink/25 backdrop-blur-[2px] sm:items-center sm:p-6"
+      className="fixed inset-0 z-50 flex items-end justify-center bg-paper/90 backdrop-blur-md sm:items-center sm:p-6"
       onMouseDown={(e) => e.target === e.currentTarget && onClose()}
     >
       <div
@@ -29,7 +29,7 @@ export default function Dialog({ open, onClose, title, children }) {
         role="dialog"
         aria-modal="true"
         aria-label={title}
-        className="animate-[rise_220ms_cubic-bezier(0.2,0.8,0.2,1)] max-h-[92vh] w-full overflow-y-auto rounded-t-card bg-paper p-6 shadow-[0_24px_64px_rgb(46_42_51/0.18)] sm:max-w-xl sm:rounded-card sm:p-8"
+        className="animate-[rise_220ms_cubic-bezier(0.2,0.8,0.2,1)] max-h-[92vh] w-full overflow-y-auto rounded-t-card border border-line bg-surface p-6 shadow-[0_24px_64px_rgb(46_42_51/0.10)] sm:max-w-xl sm:rounded-card sm:p-8"
       >
         <button
           onClick={onClose}

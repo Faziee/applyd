@@ -4,7 +4,7 @@ import Dialog from './ui/Dialog'
 import Button from './ui/Button'
 import Field, { inputClass } from './ui/Field'
 import SkillInput from './ui/SkillInput'
-import { Accent } from './ui/Decorations'
+import { Accent, Sparkle } from './ui/Decorations'
 import { extractDetails } from '../lib/extract'
 import { STATUSES } from '../lib/statuses'
 
@@ -127,14 +127,19 @@ export default function AddApplication({ open, onClose, onSave }) {
             Check the <Accent>details</Accent>
           </h2>
           <p className="mt-3 text-sm leading-relaxed text-muted">
-            {suggested.length > 0
-              ? `We filled in ${suggested.length} ${suggested.length === 1 ? 'field' : 'fields'}. Give them a quick look and fix anything that's off.`
-              : posting
-                ? "We couldn't find much in this posting, so fill in what you know."
-                : 'Fill in what you know. You can add more later.'}
+            {suggested.length > 0 ? (
+              <>
+                <Sparkle className="mr-1.5 inline h-2.5 w-2.5 -translate-y-px text-lavender" />
+                We filled these in from the posting. Give them a quick look.
+              </>
+            ) : posting ? (
+              "We couldn't find much in this posting, so fill in what you know."
+            ) : (
+              'Fill in what you know. You can add more later.'
+            )}
           </p>
           {missed?.length > 0 && suggested.length > 0 && (
-            <p className="mt-2 text-sm text-interview-ink">We couldn't find the {missed.join(' or ')}, so add that yourself.</p>
+            <p className="mt-1 text-sm text-interview-ink">We couldn't find the {missed.join(' or ')}, so add that yourself.</p>
           )}
 
           <div className="mt-6 grid gap-4 sm:grid-cols-2">
