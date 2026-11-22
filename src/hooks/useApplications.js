@@ -27,5 +27,7 @@ export function useApplications() {
   const moveTo = (id, status) =>
     setApplications((apps) => apps.map((a) => (a.id === id ? { ...a, status } : a)))
 
-  return { applications, moveTo }
+  const add = (app) => setApplications((apps) => [app, ...apps])
+
+  return { applications, moveTo, add }
 }
