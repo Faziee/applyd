@@ -42,8 +42,8 @@ export default function AddApplication({ open, onClose, onSave }) {
   }
 
   const close = () => {
-    reset()
     onClose()
+    setTimeout(reset, 220) // after the close animation, so the content doesn't jump while fading out
   }
 
   const fillIn = () => {
