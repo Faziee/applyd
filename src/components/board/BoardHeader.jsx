@@ -1,9 +1,9 @@
 import StatusChip from '../ui/StatusChip'
 import { Accent, Blob } from '../ui/Decorations'
 import ComingUp from './ComingUp'
-import { greeting } from '../../lib/dates'
+import Greeting from './Greeting'
 
-export default function BoardHeader({ applications }) {
+export default function BoardHeader({ applications, name, onName }) {
   const count = (id) => applications.filter((a) => a.status === id).length
   const active = ['todo', 'applied', 'interview', 'offer'].filter((id) => count(id) > 0)
 
@@ -13,7 +13,7 @@ export default function BoardHeader({ applications }) {
       <Blob className="pointer-events-none absolute -right-20 -top-24 h-72 rotate-[25deg] text-lavender-soft" />
       <div className="relative flex flex-wrap items-center justify-between gap-8">
         <div>
-          <p className="text-sm text-muted">{greeting()}</p>
+          <Greeting name={name} onName={onName} />
           <h1 className="mt-1 text-4xl sm:text-5xl">
             Your <Accent>applications</Accent>
           </h1>

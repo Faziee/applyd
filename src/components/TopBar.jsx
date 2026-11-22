@@ -1,8 +1,8 @@
-import { Plus, Search, Sparkles, X } from 'lucide-react'
+import { Plus, Search, Sparkles, UserRound, X } from 'lucide-react'
 import Button from './ui/Button'
 import Wordmark from './ui/Wordmark'
 
-export default function TopBar({ search, onSearch, onAdd, onSkills }) {
+export default function TopBar({ search, onSearch, onAdd, onSkills, name }) {
   return (
     <nav className="flex flex-wrap items-center gap-4 py-6">
       <Wordmark className="mr-auto" />
@@ -38,10 +38,10 @@ export default function TopBar({ search, onSearch, onAdd, onSkills }) {
 
       <span
         className="flex h-10 w-10 items-center justify-center rounded-full bg-interview font-serif text-base font-medium italic text-interview-ink"
-        aria-label="You"
+        aria-label={name || 'You'}
         role="img"
       >
-        A
+        {name ? name[0].toUpperCase() : <UserRound size={17} className="not-italic" aria-hidden="true" />}
       </span>
     </nav>
   )

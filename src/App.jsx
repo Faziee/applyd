@@ -9,10 +9,12 @@ import Toast from './components/ui/Toast'
 import Styleguide from './pages/Styleguide'
 import { useApplications } from './hooks/useApplications'
 import { useSkills } from './hooks/useSkills'
+import { useName } from './hooks/useName'
 
 export default function App() {
   const { applications, moveTo, add, update, remove, restore } = useApplications()
   const [mySkills, setMySkills] = useSkills()
+  const [name, setName] = useName()
   const [editingSkills, setEditingSkills] = useState(false)
   const [search, setSearch] = useState('')
   const [adding, setAdding] = useState(false)
@@ -46,8 +48,8 @@ export default function App() {
 
   return (
     <div className="mx-auto max-w-7xl px-6 pb-16">
-      <TopBar search={search} onSearch={setSearch} onAdd={() => setAdding(true)} onSkills={() => setEditingSkills(true)} />
-      <BoardHeader applications={applications} />
+      <TopBar search={search} onSearch={setSearch} onAdd={() => setAdding(true)} onSkills={() => setEditingSkills(true)} name={name} />
+      <BoardHeader applications={applications} name={name} onName={setName} />
       <Board applications={visible} onMove={moveTo} onOpen={setOpenId} mySkills={mySkills} searching={words.length > 0} />
       <AddApplication open={adding} onClose={() => setAdding(false)} onSave={handleSave} />
       <ApplicationDetails
