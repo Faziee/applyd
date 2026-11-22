@@ -1,8 +1,8 @@
-import { Plus, Search, X } from 'lucide-react'
+import { Plus, Search, Sparkles, X } from 'lucide-react'
 import Button from './ui/Button'
 import Wordmark from './ui/Wordmark'
 
-export default function TopBar({ search, onSearch, onAdd }) {
+export default function TopBar({ search, onSearch, onAdd, onSkills }) {
   return (
     <nav className="flex flex-wrap items-center gap-4 py-6">
       <Wordmark className="mr-auto" />
@@ -27,6 +27,10 @@ export default function TopBar({ search, onSearch, onAdd }) {
           </button>
         )}
       </label>
+
+      <Button variant="ghost" icon={Sparkles} onClick={onSkills}>
+        Your skills
+      </Button>
 
       <Button variant="primary" icon={Plus} onClick={onAdd}>
         Add application

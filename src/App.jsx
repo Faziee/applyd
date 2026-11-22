@@ -4,12 +4,16 @@ import BoardHeader from './components/board/BoardHeader'
 import TopBar from './components/TopBar'
 import AddApplication from './components/AddApplication'
 import ApplicationDetails from './components/ApplicationDetails'
+import SkillsDialog from './components/SkillsDialog'
 import Toast from './components/ui/Toast'
 import Styleguide from './pages/Styleguide'
 import { useApplications } from './hooks/useApplications'
+import { useSkills } from './hooks/useSkills'
 
 export default function App() {
   const { applications, moveTo, add, update, remove, restore } = useApplications()
+  const [mySkills, setMySkills] = useSkills()
+  const [editingSkills, setEditingSkills] = useState(false)
   const [search, setSearch] = useState('')
   const [adding, setAdding] = useState(false)
   const [openId, setOpenId] = useState(null)
@@ -42,16 +46,18 @@ export default function App() {
 
   return (
     <div className="mx-auto max-w-7xl px-6 pb-16">
-      <TopBar search={search} onSearch={setSearch} onAdd={() => setAdding(true)} />
+      <TopBar search={search} onSearch={setSearch} onAdd={() => setAdding(true)} onSkills={() => setEditingSkills(true)} />
       <BoardHeader applications={applications} />
-      <Board applications={visible} onMove={moveTo} onOpen={setOpenId} searching={words.length > 0} />
+      <Board applications={visible} onMove={moveTo} onOpen={setOpenId} mySkills={mySkills} searching={words.length > 0} />
       <AddApplication open={adding} onClose={() => setAdding(false)} onSave={handleSave} />
       <ApplicationDetails
         app={applications.find((a) => a.id === openId)}
+        mySkills={mySkills}
         onClose={() => setOpenId(null)}
         onUpdate={update}
         onDelete={handleDelete}
       />
+      <SkillsDialog open={editingSkills} onClose={() => setEditingSkills(false)} skills={mySkills} onChange={setMySkills} />
       <Toast toast={toast} onDone={clearToast} />
     </div>
   )

@@ -8,6 +8,7 @@ const daysFromNow = (n) => {
 export const sampleApplications = [
   {
     id: 'sample-1',
+    skills: ['Figma', 'Adobe Creative Suite', 'Typography', 'Branding', 'Prototyping'],
     company: 'Fernweh Labs',
     role: 'Experience Design Intern',
     city: 'Berlin',
@@ -18,6 +19,7 @@ export const sampleApplications = [
   },
   {
     id: 'sample-2',
+    skills: ['Figma', 'Prototyping', 'Design systems', 'Data visualisation'],
     company: 'Kaleido Studio',
     role: 'Product Designer Intern',
     city: 'Berlin',
@@ -28,6 +30,7 @@ export const sampleApplications = [
   },
   {
     id: 'sample-3',
+    skills: ['React', 'TypeScript', 'Next.js', 'Figma', 'CSS'],
     company: 'Mondlicht AI',
     role: 'Design Engineer',
     city: 'Berlin',
@@ -38,6 +41,7 @@ export const sampleApplications = [
   },
   {
     id: 'sample-4',
+    skills: ['Figma', 'User research', 'Prototyping'],
     company: 'Atlas Maps',
     role: 'Product Design Intern',
     city: 'Berlin',
@@ -48,6 +52,7 @@ export const sampleApplications = [
   },
   {
     id: 'sample-5',
+    skills: ['Figma', 'Design systems', 'Usability testing', 'HTML', 'CSS'],
     company: 'Harbour & Co',
     role: 'UX/UI Design Intern',
     city: 'Dublin',
@@ -58,6 +63,7 @@ export const sampleApplications = [
   },
   {
     id: 'sample-6',
+    skills: ['Unity', 'C#', 'Git', 'Blender', 'VR'],
     company: 'Pixelgarten Games',
     role: 'Junior Game Developer',
     city: 'Berlin',

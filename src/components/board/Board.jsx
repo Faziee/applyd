@@ -4,7 +4,7 @@ import Column from './Column'
 import { CardContent } from './AppCard'
 import { STATUSES } from '../../lib/statuses'
 
-export default function Board({ applications, onMove, onOpen, searching = false }) {
+export default function Board({ applications, onMove, onOpen, mySkills, searching = false }) {
   const [activeId, setActiveId] = useState(null)
   const activeApp = applications.find((a) => a.id === activeId)
 
@@ -33,6 +33,7 @@ export default function Board({ applications, onMove, onOpen, searching = false 
             status={status}
             searching={searching}
             onOpen={onOpen}
+            mySkills={mySkills}
             apps={applications.filter((a) => a.status === status.id)}
           />
         ))}
@@ -42,7 +43,7 @@ export default function Board({ applications, onMove, onOpen, searching = false 
       <DragOverlay dropAnimation={{ duration: 220, easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)' }}>
         {activeApp && (
           <div className="rotate-2 cursor-grabbing rounded-[14px] border border-lavender-line bg-surface p-4 shadow-[0_12px_32px_rgb(46_42_51/0.12)]">
-            <CardContent app={activeApp} />
+            <CardContent app={activeApp} mySkills={mySkills} />
           </div>
         )}
       </DragOverlay>

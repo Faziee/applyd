@@ -1,10 +1,11 @@
 import { useState } from 'react'
-import { CalendarClock, ChevronDown, ExternalLink, MapPin, PenLine, Trash2 } from 'lucide-react'
+import { CalendarClock, Check, ChevronDown, ExternalLink, MapPin, PenLine, Trash2 } from 'lucide-react'
 import Dialog from './ui/Dialog'
 import Button from './ui/Button'
 import ApplicationForm from './ApplicationForm'
 import { STATUSES } from '../lib/statuses'
 import { daysUntil, formatShortDate } from '../lib/dates'
+import { matchSkills } from '../lib/skills'
 
 function StatusPicker({ value, onChange }) {
   return (
@@ -40,7 +41,39 @@ function DetailRow({ icon: Icon, children }) {
   )
 }
 
-function View({ app, onStatus, onEdit, onDelete }) {
+function SkillsMatch({ skills, mySkills }) {
+  const { matched, missing } = matchSkills(skills, mySkills)
+  const summary =
+    missing.length === 0
+      ? 'You have every skill they ask for.'
+      : matched.length === 0
+        ? 'A stretch, but a chance to learn something new.'
+        : `You have ${matched.length} of ${skills.length}. Worth brushing up on the rest.`
+
+  return (
+    <section className="mt-6">
+      <h3 className="mb-1 font-sans text-sm font-medium tracking-normal">Skills they ask for</h3>
+      <p className="mb-3 text-xs text-muted">{summary}</p>
+      <div className="flex flex-wrap gap-1.5">
+        {matched.map((skill) => (
+          <span key={skill} className="inline-flex items-center gap-1 rounded-full bg-lavender-soft px-2.5 py-1 text-xs text-todo-ink">
+            <Check size={11} strokeWidth={2.5} aria-hidden="true" />
+            {skill}
+            <span className="sr-only">(you have this)</span>
+          </span>
+        ))}
+        {missing.map((skill) => (
+          <span key={skill} className="rounded-full border border-dashed border-line px-2.5 py-1 text-xs text-muted">
+            {skill}
+            <span className="sr-only">(to learn)</span>
+          </span>
+        ))}
+      </div>
+    </section>
+  )
+}
+
+function View({ app, mySkills, onStatus, onEdit, onDelete }) {
   const [showPosting, setShowPosting] = useState(false)
   const days = daysUntil(app.deadline)
 
@@ -75,18 +108,7 @@ function View({ app, onStatus, onEdit, onDelete }) {
         {!app.city && !app.deadline && !app.link && <p className="text-sm text-muted">No location, deadline or link yet.</p>}
       </div>
 
-      {app.skills?.length > 0 && (
-        <section className="mt-6">
-          <h3 className="mb-2 font-sans text-sm font-medium tracking-normal">Skills they ask for</h3>
-          <div className="flex flex-wrap gap-1.5">
-            {app.skills.map((skill) => (
-              <span key={skill} className="rounded-full bg-lavender-soft px-2.5 py-1 text-xs text-todo-ink">
-                {skill}
-              </span>
-            ))}
-          </div>
-        </section>
-      )}
+      {app.skills?.length > 0 && <SkillsMatch skills={app.skills} mySkills={mySkills} />}
 
       <section className="mt-6">
         <h3 className="mb-2 font-sans text-sm font-medium tracking-normal">Notes</h3>
@@ -164,7 +186,7 @@ function Edit({ app, onSave, onCancel }) {
   )
 }
 
-export default function ApplicationDetails({ app, onClose, onUpdate, onDelete }) {
+export default function ApplicationDetails({ app, mySkills, onClose, onUpdate, onDelete }) {
   const [editing, setEditing] = useState(false)
   // Keep showing the last application while the dialog fades out.
   const [shown, setShown] = useState(app)
@@ -192,6 +214,7 @@ export default function ApplicationDetails({ app, onClose, onUpdate, onDelete })
           <View
             key={shown.id}
             app={shown}
+            mySkills={mySkills}
             onStatus={(status) => onUpdate(shown.id, { status })}
             onEdit={() => setEditing(true)}
             onDelete={() => onDelete(shown)}

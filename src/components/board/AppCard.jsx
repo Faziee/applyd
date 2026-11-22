@@ -1,6 +1,8 @@
 import { useDraggable } from '@dnd-kit/core'
 import { CalendarClock, MapPin } from 'lucide-react'
 import { daysUntil, formatShortDate } from '../../lib/dates'
+import { matchSkills } from '../../lib/skills'
+import MatchMeter from '../ui/MatchMeter'
 
 function Deadline({ date }) {
   const days = daysUntil(date)
@@ -22,7 +24,7 @@ function Deadline({ date }) {
   )
 }
 
-export function CardContent({ app }) {
+export function CardContent({ app, mySkills = [] }) {
   return (
     <>
       <p className="font-medium leading-snug">{app.company}</p>
@@ -36,11 +38,12 @@ export function CardContent({ app }) {
         )}
         <Deadline date={app.deadline} />
       </div>
+      <MatchMeter match={matchSkills(app.skills, mySkills)} />
     </>
   )
 }
 
-export default function AppCard({ app, onOpen }) {
+export default function AppCard({ app, onOpen, mySkills }) {
   const { attributes, listeners, setNodeRef, isDragging } = useDraggable({ id: app.id })
 
   return (
@@ -59,7 +62,7 @@ export default function AppCard({ app, onOpen }) {
         isDragging ? 'opacity-30' : ''
       }`}
     >
-      <CardContent app={app} />
+      <CardContent app={app} mySkills={mySkills} />
     </article>
   )
 }
