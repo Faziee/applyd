@@ -1,11 +1,11 @@
 import { useState } from 'react'
-import { ArrowLeft, PenLine, Wand2 } from 'lucide-react'
+import { ArrowLeft, LoaderCircle, PenLine, Wand2 } from 'lucide-react'
 import Dialog from './ui/Dialog'
 import Button from './ui/Button'
 import Field, { inputClass } from './ui/Field'
 import SkillInput from './ui/SkillInput'
 import { Accent, Sparkle } from './ui/Decorations'
-import { extractDetails } from '../lib/extract'
+import { fillInFromPosting } from '../lib/fillIn'
 import { STATUSES } from '../lib/statuses'
 
 const EMPTY = { company: '', role: '', city: '', deadline: '', link: '', skills: [], notes: '', status: 'todo' }
@@ -32,6 +32,8 @@ export default function AddApplication({ open, onClose, onSave }) {
   const [form, setForm] = useState(EMPTY)
   const [suggested, setSuggested] = useState([])
   const [error, setError] = useState('')
+  const [reading, setReading] = useState(false)
+  const [source, setSource] = useState(null)
 
   const reset = () => {
     setStep('paste')
@@ -39,6 +41,8 @@ export default function AddApplication({ open, onClose, onSave }) {
     setForm(EMPTY)
     setSuggested([])
     setError('')
+    setReading(false)
+    setSource(null)
   }
 
   const close = () => {
@@ -46,14 +50,17 @@ export default function AddApplication({ open, onClose, onSave }) {
     setTimeout(reset, 220) // after the close animation, so the content doesn't jump while fading out
   }
 
-  const fillIn = () => {
+  const fillIn = async () => {
     if (posting.trim().length < 40) {
       setError('Paste a bit more of the posting so there is something to read.')
       return
     }
-    const { details, suggested } = extractDetails(posting)
+    setReading(true)
+    const { details, suggested, source } = await fillInFromPosting(posting)
+    setReading(false)
     setForm({ ...EMPTY, ...details })
     setSuggested(suggested)
+    setSource(source)
     setStep('form')
   }
 
@@ -94,9 +101,10 @@ export default function AddApplication({ open, onClose, onSave }) {
               setError('')
             }}
             rows={9}
+            readOnly={reading}
             placeholder="Paste the full job posting here"
             aria-label="Job posting"
-            className={`${inputClass} mt-6 resize-none leading-relaxed`}
+            className={`${inputClass} mt-6 resize-none leading-relaxed transition-opacity ${reading ? 'opacity-50' : ''}`}
           />
           {error && <p className="mt-2 text-sm text-rejected-ink">{error}</p>}
           {!posting && (
@@ -109,8 +117,15 @@ export default function AddApplication({ open, onClose, onSave }) {
             <Button variant="secondary" icon={PenLine} onClick={() => setStep('form')}>
               Fill in by hand
             </Button>
-            <Button variant="primary" icon={Wand2} onClick={fillIn}>
-              Fill in details
+            <Button variant="primary" icon={reading ? undefined : Wand2} onClick={fillIn} aria-busy={reading}>
+              {reading ? (
+                <>
+                  <LoaderCircle size={16} className="animate-spin motion-reduce:animate-none" aria-hidden="true" />
+                  Reading the posting
+                </>
+              ) : (
+                'Fill in details'
+              )}
             </Button>
           </div>
         </div>
@@ -131,6 +146,7 @@ export default function AddApplication({ open, onClose, onSave }) {
               <>
                 <Sparkle className="mr-1.5 inline h-2.5 w-2.5 -translate-y-px text-lavender" />
                 We filled these in from the posting. Give them a quick look.
+                {source === 'rules' && <span className="block pl-4 text-xs">Demo mode: filled in with simple rules instead of AI.</span>}
               </>
             ) : posting ? (
               "We couldn't find much in this posting, so fill in what you know."
