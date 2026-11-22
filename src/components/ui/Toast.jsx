@@ -12,7 +12,7 @@ export default function Toast({ toast, onDone }) {
   if (!toast) return null
 
   return (
-    <div role="status" className="fixed bottom-6 left-1/2 z-[60] -translate-x-1/2 animate-[rise_220ms_cubic-bezier(0.2,0.8,0.2,1)]">
+    <div role="status" className="fixed left-1/2 top-4 z-[60] -translate-x-1/2 sm:bottom-6 sm:top-auto animate-[rise_220ms_cubic-bezier(0.2,0.8,0.2,1)]">
       <div className="flex items-center gap-2.5 rounded-full bg-ink py-2 pl-3 pr-2 text-sm text-white shadow-[0_12px_32px_rgb(46_42_51/0.25)]">
         <span className="flex h-6 w-6 items-center justify-center rounded-full bg-offer text-offer-ink">
           <Check size={13} strokeWidth={2.5} />

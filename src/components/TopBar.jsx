@@ -4,7 +4,7 @@ import Wordmark from './ui/Wordmark'
 
 export default function TopBar({ search, onSearch, onAdd, onSkills, name }) {
   return (
-    <nav className="flex flex-wrap items-center gap-4 py-6">
+    <nav className="flex flex-wrap items-center gap-2 py-6 sm:gap-4">
       <Wordmark className="mr-auto" />
 
       <label className="relative order-last w-full sm:order-none sm:w-72">
@@ -28,12 +28,13 @@ export default function TopBar({ search, onSearch, onAdd, onSkills, name }) {
         )}
       </label>
 
-      <Button variant="ghost" icon={Sparkles} onClick={onSkills}>
-        Your skills
+      <Button variant="ghost" icon={Sparkles} onClick={onSkills} aria-label="Your skills" className="px-2.5 sm:px-4">
+        <span className="hidden sm:inline">Your skills</span>
       </Button>
 
-      <Button variant="primary" icon={Plus} onClick={onAdd}>
-        Add application
+      <Button variant="primary" icon={Plus} onClick={onAdd} aria-label="Add application" className="px-3 sm:px-4">
+        <span className="sm:hidden">Add</span>
+        <span className="hidden sm:inline">Add application</span>
       </Button>
 
       <span
