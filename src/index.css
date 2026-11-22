@@ -1,0 +1,62 @@
+@import "@fontsource-variable/inter";
+@import "@fontsource-variable/fraunces/full.css";
+@import "@fontsource-variable/fraunces/full-italic.css";
+@import "tailwindcss";
+
+/*
+  Applyd design tokens
+  Calm, warm and pastel. Pastels are only used to show status,
+  lavender is only used for the main action, so the UI never gets loud.
+*/
+@theme {
+  /* Base */
+  --color-paper: #faf8f5;
+  --color-surface: #ffffff;
+  --color-line: #ece7e0;
+  --color-ink: #2e2a33;
+  --color-muted: #7a7480;
+
+  /* Accent (main actions only) */
+  --color-lavender: #6b5ca5;
+  --color-lavender-soft: #f3effb;
+  --color-lavender-line: #cfc7ec;
+  --color-blush: #f2b8c3;
+
+  /* Status pastels (background + matching dark text) */
+  --color-todo: #e8e4f7;
+  --color-todo-ink: #4a3f80;
+  --color-applied: #dcebfa;
+  --color-applied-ink: #2b5480;
+  --color-interview: #fbe5d6;
+  --color-interview-ink: #8a4b26;
+  --color-offer: #ddf2e6;
+  --color-offer-ink: #2d6a48;
+  --color-rejected: #f6dde1;
+  --color-rejected-ink: #8a3a48;
+
+  /* Type */
+  --font-sans: "Inter Variable", system-ui, sans-serif;
+  --font-serif: "Fraunces Variable", Georgia, serif;
+
+  /* Shape */
+  --radius-card: 16px;
+  --radius-control: 10px;
+  --shadow-soft: 0 1px 2px rgb(46 42 51 / 0.04), 0 4px 16px rgb(46 42 51 / 0.04);
+}
+
+@layer base {
+  body {
+    @apply bg-paper font-sans text-ink antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-serif font-medium tracking-tight;
+    font-variation-settings: "SOFT" 50, "WONK" 0;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-lavender;
+  }
+}
