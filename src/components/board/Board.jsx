@@ -4,7 +4,7 @@ import Column from './Column'
 import { CardContent } from './AppCard'
 import { STATUSES } from '../../lib/statuses'
 
-export default function Board({ applications, onMove }) {
+export default function Board({ applications, onMove, searching = false }) {
   const [activeId, setActiveId] = useState(null)
   const activeApp = applications.find((a) => a.id === activeId)
 
@@ -28,7 +28,12 @@ export default function Board({ applications, onMove }) {
     >
       <div className="-mx-6 flex gap-3 overflow-x-auto px-6 pb-4 lg:mx-0 lg:overflow-visible lg:px-0">
         {STATUSES.map((status) => (
-          <Column key={status.id} status={status} apps={applications.filter((a) => a.status === status.id)} />
+          <Column
+            key={status.id}
+            status={status}
+            searching={searching}
+            apps={applications.filter((a) => a.status === status.id)}
+          />
         ))}
       </div>
 
