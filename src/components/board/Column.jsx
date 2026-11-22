@@ -2,7 +2,7 @@ import { useDroppable } from '@dnd-kit/core'
 import AppCard from './AppCard'
 import EmptyState from './EmptyState'
 
-export default function Column({ status, apps, searching = false }) {
+export default function Column({ status, apps, searching = false, onOpen }) {
   const { setNodeRef, isOver } = useDroppable({ id: status.id })
   const Icon = status.icon
 
@@ -26,7 +26,7 @@ export default function Column({ status, apps, searching = false }) {
         {apps.length === 0 && searching && <p className="px-2 py-6 text-center text-xs text-muted">No matches</p>}
         {apps.length === 0 && !searching && <EmptyState status={status} />}
         {apps.map((app) => (
-          <AppCard key={app.id} app={app} />
+          <AppCard key={app.id} app={app} onOpen={onOpen} />
         ))}
       </div>
     </section>

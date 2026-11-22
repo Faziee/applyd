@@ -40,7 +40,7 @@ export function CardContent({ app }) {
   )
 }
 
-export default function AppCard({ app }) {
+export default function AppCard({ app, onOpen }) {
   const { attributes, listeners, setNodeRef, isDragging } = useDraggable({ id: app.id })
 
   return (
@@ -48,7 +48,13 @@ export default function AppCard({ app }) {
       ref={setNodeRef}
       {...listeners}
       {...attributes}
+      onClick={() => onOpen(app.id)}
+      onKeyDown={(e) => {
+        listeners.onKeyDown?.(e)
+        if (e.key === 'Enter') onOpen(app.id)
+      }}
       aria-label={`${app.company}, ${app.role}`}
+      aria-roledescription="application card. Press Enter to open, Space to move"
       className={`cursor-grab touch-none rounded-[14px] border border-line bg-surface p-4 shadow-soft transition-all duration-200 hover:-translate-y-0.5 hover:border-lavender-line active:cursor-grabbing ${
         isDragging ? 'opacity-30' : ''
       }`}

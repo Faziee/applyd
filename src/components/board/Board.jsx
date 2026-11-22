@@ -4,14 +4,14 @@ import Column from './Column'
 import { CardContent } from './AppCard'
 import { STATUSES } from '../../lib/statuses'
 
-export default function Board({ applications, onMove, searching = false }) {
+export default function Board({ applications, onMove, onOpen, searching = false }) {
   const [activeId, setActiveId] = useState(null)
   const activeApp = applications.find((a) => a.id === activeId)
 
   // A small drag distance so a simple click doesn't start a drag.
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
-    useSensor(KeyboardSensor),
+    useSensor(KeyboardSensor, { keyboardCodes: { start: ['Space'], cancel: ['Escape'], end: ['Space', 'Enter'] } }),
   )
 
   const handleDragEnd = ({ active, over }) => {
@@ -32,6 +32,7 @@ export default function Board({ applications, onMove, searching = false }) {
             key={status.id}
             status={status}
             searching={searching}
+            onOpen={onOpen}
             apps={applications.filter((a) => a.status === status.id)}
           />
         ))}

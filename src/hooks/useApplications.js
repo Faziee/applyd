@@ -29,5 +29,14 @@ export function useApplications() {
 
   const add = (app) => setApplications((apps) => [app, ...apps])
 
-  return { applications, moveTo, add }
+  const update = (id, changes) =>
+    setApplications((apps) => apps.map((a) => (a.id === id ? { ...a, ...changes } : a)))
+
+  const remove = (id) => setApplications((apps) => apps.filter((a) => a.id !== id))
+
+  // Put a deleted application back where it was (used by "Undo").
+  const restore = (app, index) =>
+    setApplications((apps) => [...apps.slice(0, index), app, ...apps.slice(index)])
+
+  return { applications, moveTo, add, update, remove, restore }
 }
